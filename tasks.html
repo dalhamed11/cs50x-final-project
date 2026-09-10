@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>المهام - Study Planner</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <main>
+
+        <h1>مهامي 📝</h1>
+
+        <h2>إضافة مهمة جديدة</h2>
+
+        <form action="/tasks" method="post">
+
+            <label for="title">اسم المهمة:</label>
+
+            <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="مثال: حل Problem Set 1"
+                required
+            >
+
+            <br><br>
+
+            <label for="subject_id">المادة:</label>
+
+            <select id="subject_id" name="subject_id" required>
+
+                <option value="">اختاري المادة</option>
+
+                {% for subject in subjects %}
+
+                    <option value="{{ subject['id'] }}">
+                        {{ subject['name'] }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <br><br>
+
+            <label for="due_date">موعد التسليم:</label>
+
+            <input
+                type="date"
+                id="due_date"
+                name="due_date"
+                required
+            >
+
+            <br><br>
+
+            <button type="submit">
+                إضافة المهمة
+            </button>
+
+        </form>
+
+        <hr>
+
+        <h2>المهام 📅</h2>
+
+        <div>
+
+            <a href="/tasks?status=all">
+                كل المهام
+            </a>
+
+            |
+
+            <a href="/tasks?status=pending">
+                ⏳ غير مكتملة
+            </a>
+
+            |
+
+            <a href="/tasks?status=completed">
+                ✅ مكتملة
+            </a>
+
+        </div>
+
+        <br>
+
+        {% if tasks %}
+
+            <ul>
+
+                {% for task in tasks %}
+
+                    <li>
+
+                        <strong>{{ task['title'] }}</strong>
+
+                        -
+
+                        {{ task['subject_name'] }}
+
+                        -
+
+                        موعد التسليم:
+                        {{ task['due_date'] }}
+
+                        {% if task['completed'] %}
+
+                            - ✅ مكتملة
+
+                        {% else %}
+
+                            - ⏳ غير مكتملة
+
+                            <form
+                                action="/tasks/{{ task['id'] }}/complete"
+                                method="post"
+                                style="display: inline;"
+                            >
+                                <button type="submit">
+                                    إكمال المهمة ✅
+                                </button>
+                            </form>
+
+                        {% endif %}
+
+                        <a href="/tasks/{{ task['id'] }}/edit">
+                            ✏️ تعديل
+                        </a>
+
+                        <form
+                            action="/tasks/{{ task['id'] }}/delete"
+                            method="post"
+                            style="display: inline;"
+                        >
+                            <button type="submit">
+                                حذف 🗑️
+                            </button>
+                        </form>
+
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p>لا توجد مهام في هذا القسم.</p>
+
+        {% endif %}
+
+        <p>
+            <a href="/">العودة للرئيسية</a>
+        </p>
+
+    </main>
+
+</body>
+
+</html>

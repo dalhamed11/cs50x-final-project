@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المواد - Study Planner</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <h1>موادي الدراسية 📚</h1>
+
+    <form action="/subjects" method="post">
+
+        <label for="name">اسم المادة:</label>
+
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="مثال: CS50"
+            required
+        >
+
+        <button type="submit">إضافة المادة</button>
+
+    </form>
+
+    <hr>
+
+    <h2>المواد الخاصة بي</h2>
+
+    {% if subjects %}
+
+        <ul>
+
+            {% for subject in subjects %}
+
+                <li>{{ subject["name"] }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+
+        <p>لا توجد مواد حتى الآن.</p>
+
+    {% endif %}
+
+    <p>
+        <a href="/">العودة للرئيسية</a>
+    </p>
+
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Planner</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    {% if username %}
+
+        <header>
+
+            <h1>Study Planner 📚</h1>
+
+            <p>أهلًا {{ username }} 👋</p>
+
+            <nav>
+                <a href="/subjects">📚 المواد</a>
+                <a href="/tasks">📝 المهام</a>
+                <a href="/logout">🔓 تسجيل الخروج</a>
+            </nav>
+
+        </header>
+
+        <main>
+
+            <h2>لوحة التحكم 📊</h2>
+
+            <div>
+
+                <div>
+                    <h3>📚 المواد</h3>
+                    <p>{{ subjects_count }}</p>
+                </div>
+
+                <div>
+                    <h3>📝 كل المهام</h3>
+                    <p>{{ tasks_count }}</p>
+                </div>
+
+                <div>
+                    <h3>✅ مكتملة</h3>
+                    <p>{{ completed_count }}</p>
+                </div>
+
+                <div>
+                    <h3>⏳ غير مكتملة</h3>
+                    <p>{{ pending_count }}</p>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h2>المهام القادمة 📅</h2>
+
+            {% if upcoming_tasks %}
+
+                <ul>
+
+                    {% for task in upcoming_tasks %}
+
+                        <li>
+                            <strong>{{ task["title"] }}</strong>
+                            —
+                            {{ task["subject_name"] }}
+                            —
+                            {{ task["due_date"] }}
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            {% else %}
+
+                <p>ما عندك مهام قادمة 🎉</p>
+
+            {% endif %}
+
+        </main>
+
+    {% else %}
+
+        <main>
+
+            <h1>Study Planner 📚</h1>
+
+            <h2>منظم دراستك الشخصي</h2>
+
+            <p>
+                نظمي موادك ومهامك ومواعيد التسليم في مكان واحد.
+            </p>
+
+            <p>
+                <a href="/login">🔐 تسجيل الدخول</a>
+            </p>
+
+            <p>
+                <a href="/register">👤 إنشاء حساب</a>
+            </p>
+
+        </main>
+
+    {% endif %}
+
+</body>
+
+</html>
